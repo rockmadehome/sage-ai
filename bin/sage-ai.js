@@ -52,7 +52,7 @@ function printBanner() {
     console.log(kleur.gray("  ─────────────────────────────────────────────────"));
     console.log(kleur.magenta("  Your Scholar for OpenCode~"));
     console.log("");
-    console.log(kleur.gray("                              ~ by ") + kleur.magenta().bold("m01x"));
+    console.log(kleur.gray("                  ~ by ") + kleur.magenta().bold("m01x"));
     console.log("");
 }
 
