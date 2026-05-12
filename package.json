@@ -1,0 +1,27 @@
+{
+  "name": "sage-ai",
+  "version": "0.1.0",
+  "description": "Install Sage — Your Schoolar for OpenCode",
+  "type": "module",
+  "bin": {
+    "sage-ai": "./bin/sage-ai.js"
+  },
+  "files": [
+    "bin/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "kleur": "^4.1.5"
+  },
+  "keywords": [
+    "opencode",
+    "agent",
+    "sage",
+    "ai",
+    "code-comprehension"
+  ],
+  "author": "",
+  "license": "MIT"
+}
