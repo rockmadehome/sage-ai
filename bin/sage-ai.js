@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { createInterface } from "readline";
 import { mkdirSync, writeFileSync } from "fs";
-import { join } from "path";
+import { join, dirname } from "path";
 import { homedir } from "os";
 import kleur from "kleur";
 
@@ -36,8 +36,8 @@ async function fetchFile(url) {
 }
 
 function writeFile(filePath, content) {
-    const dir = filePath.substring(0, filePath.lastIndexOf("/"));
-    if (dir) mkdirSync(dir, { recursive: true });
+    const dir = dirname(filePath);
+    mkdirSync(dir, { recursive: true });
     writeFileSync(filePath, content, "utf8");
 }
 
