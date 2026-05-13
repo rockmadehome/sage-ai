@@ -1,38 +1,81 @@
 ---
-description: Explains the current project — detected stack, purpose, inputs/outputs, and main modules.
+description: Explains the current project — detected stack, architecture, purpose, inputs/outputs, and main modules. Updates the project's truth-source index.
 agent: sage
 subtask: true
 ---
 
-Analyze the current project and produce a structured explanation following this exact pattern.
-Use @explore to walk the directory structure and configuration files before responding.
-Do not invent or assume — every claim must be backed by what you actually read in the code.
+Analyze the current project and produce a structured explanation following the exact format below.
 
----
+## Before responding
 
-## 1. Language and stack
+1. Check if `.opencode/sage/sources.json` exists in the project root. If it does, read it first — it tells you where the project keeps its sources of truth (ADRs, specs, README, contracts).
+2. Use **@explore** to walk the directory structure and read declarative configuration files (`package.json`, `tsconfig.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, `composer.json`, `docker-compose.yml`, etc.).
+3. Identify documentation sources: folders named `ADR/`, `docs/`, `specifications.md`, `README.md`, DTO/contract files. Note their paths.
+4. Detect any skills available under the locations defined in `sage.md`.
+5. Do not invent or assume — every claim must be backed by what you actually read.
 
-List the primary language and key technologies (frameworks, relevant libraries, runtime).
-Read this from files like `package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, `composer.json`, or equivalents.
-If there are multiple languages, mention all of them with their role in the project.
+## Output format
 
-## 2. Brief description
+Output must fit comfortably in a terminal. Use the exact structure below. Omit a category if you have no evidence for it.
 
-In 2 to 4 sentences: what does this project do, who is it for, and what is its main value.
-Do not copy the README — synthesize in your own words from the actual code.
+```
+# Tech Stack
+Languages:        <list>
+Frontend:         <frameworks, key libraries, UI layer>
+Backend:          <framework, ORM, key libraries>
+Database:         <engine + version if visible>
+Infrastructure:   <package manager, containers, build tools>
+External services: <APIs, brokers, caches — only if detected>
+Not detected:     <categories you looked for but didn't find>
 
-## 3. Inputs and outputs
+# Architecture
+<one line listing the patterns detected, separated by · — e.g. "Monorepo · Client-Server · REST API · MVC">
 
-What does the system receive? (data, events, requests, files, environment variables — without revealing secret values)
-What does it produce? (responses, generated files, side effects, external API calls)
+# Purpose
+<one sentence: what this system does. If the project has a roadmap or phase markers in ADRs, include the current phase.>
 
-## 4. Main modules
+# Inputs / Outputs
+| Input                          | Output                          |
+| <max 4 rows, most important>   | <max 4 rows, most important>    |
 
-List the most important modules, folders, or layers of the project.
-For each one: name, responsibility in one line, and how it relates to the others.
-Maximum 8 modules — if there are more, group the secondary ones.
+# Main modules
+<module name>      → <one-line responsibility>
+<module name>      → <one-line responsibility>
+(max 6 modules — group secondary ones if needed)
+```
 
----
+## After producing the report
 
-When done, ask the user:
-"Want me to go deeper into a specific module with `/exp-file @path` or visualize the data flow with `/flow`?"
+Write or update `.opencode/sage/sources.json` with the documentation sources and skills you detected. Use this schema:
+
+```json
+{
+  "version": "1.0",
+  "indexed_at": "<current ISO-8601 timestamp>",
+  "sources": [
+    {
+      "path": "<relative path>",
+      "type": "<decision_records|specs|readme|contracts|other>",
+      "priority": "<high|medium|low>"
+    }
+  ],
+  "skills_detected": [
+    {
+      "path": "<relative or absolute path to SKILL.md>",
+      "scope": "<project|global>"
+    }
+  ]
+}
+```
+
+If the file did not exist, create it. If it existed, replace it with the fresh scan — `/exp` is the canonical refresh moment.
+
+## Closing
+
+End with a single line offering the natural next step. Examples:
+
+- If you detected stub/placeholder code: _"I noticed `<module>` has placeholder logic. Want me to inspect it with `/exp-file @<path>`?"_
+- If the project has many modules: _"Want me to go deeper into a specific module with `/exp-file @<path>` or visualize data flow with `/flow @<path>`?"_
+- If you detected inconsistencies between sources: _"I found inconsistencies between `<source A>` and `<source B>` — want me to walk through them?"_
+
+Make the closing specific to what you actually found, not generic.
