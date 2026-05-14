@@ -4,7 +4,7 @@ agent: sage
 subtask: true
 ---
 
-Respond in the language configured in the `language` field of `sage.md`. Use that language for all section headers and content — regardless of the language this prompt is written in.
+**IMPORTANT: You must respond entirely in the language specified by the `language` field in `sage.md`. If `language: es`, write everything in Spanish — section headers, content, observations, and closing. Do not use English regardless of the language this prompt is written in.**
 
 Analyze the current project and produce a structured explanation following the exact format below.
 
