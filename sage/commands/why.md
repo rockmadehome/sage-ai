@@ -45,11 +45,9 @@ Output must fit comfortably in a terminal. Use the exact structure below.
 
 ## Disclaimer
 
-Always close with:
-
-```
-⚠ This is a reasoned hypothesis, not absolute truth. Git history does not capture all context — conversations, constraints, and deadlines leave no trace in code.
-```
+Close with a disclaimer in the configured language stating that this analysis
+is a reasoned hypothesis, not absolute truth, and that git history does not
+capture all context.
 
 ## Closing
 
