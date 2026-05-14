@@ -42,7 +42,22 @@ Not detected:     <categories you looked for but didn't find>
 <module name>      → <one-line responsibility>
 <module name>      → <one-line responsibility>
 (max 6 modules — group secondary ones if needed)
+
+# Observations
+- <observation>
+- <observation>
+(max 4 items — only what is genuinely useful to the developer)
 ```
+
+Include an observation only if it falls into one of these categories:
+
+- **Stale documentation** — a doc or ADR describes something that no longer matches the code
+- **Active stubs** — methods or endpoints that throw NotImplementedException or equivalent
+- **Presentational-only components** — UI with no state, validation, or API integration
+- **Risky config** — settings like `synchronize: true`, hardcoded secrets, missing `.env.example`
+- **Structural inconsistencies** — empty folders that should have content, misplaced files
+
+If nothing qualifies, omit the section entirely. Do not force observations.
 
 ## After producing the report
 
