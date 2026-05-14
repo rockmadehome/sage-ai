@@ -4,6 +4,8 @@ agent: sage
 subtask: true
 ---
 
+Respond in the language configured in the `language` field of `sage.md`. Use that language for all section headers and content — regardless of the language this prompt is written in.
+
 Investigate the design decisions behind `$ARGUMENTS`.
 Do not fabricate history. If there is not enough evidence, say so and work only from what you can verify.
 

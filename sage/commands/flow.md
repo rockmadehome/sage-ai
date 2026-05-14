@@ -4,6 +4,8 @@ agent: sage
 subtask: true
 ---
 
+Respond in the language configured in the `language` field of `sage.md`. Use that language for all section headers and content — regardless of the language this prompt is written in.
+
 Analyze the relationships of `$ARGUMENTS` with the rest of the project.
 The goal is NOT a technical graph — it is a plain-language explanation of how information flows.
 

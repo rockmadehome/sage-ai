@@ -4,6 +4,8 @@ agent: sage
 subtask: true
 ---
 
+Respond in the language configured in the `language` field of `sage.md`. Use that language for all section headers and content — regardless of the language this prompt is written in.
+
 Analyze the current project and produce a structured explanation following the exact format below.
 
 ## Before responding

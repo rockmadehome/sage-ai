@@ -4,6 +4,8 @@ agent: sage
 subtask: true
 ---
 
+Respond in the language configured in the `language` field of `sage.md`. Use that language for all section headers and content — regardless of the language this prompt is written in.
+
 Analyze the file `$ARGUMENTS` and produce a structured explanation following the format below.
 
 ## Before responding
@@ -34,11 +36,25 @@ Functions:   <name(params) → what it does>
 Classes:     <name → purpose, key members>
 Types:       <name → what it models>
 Key imports: <what is imported and how it is used here>
+
+# Observations
+- <observation>
+- <observation>
+(max 4 items)
 ```
 
 Only include subsections of the Dictionary that actually exist in the file. If there are no classes, omit the `Classes:` line entirely.
 
 For Functions: include parameters in the name (e.g. `findById(id: string)`), then the action in plain language. Keep each entry to one line.
+
+Include an observation only if it falls into one of these categories:
+
+No behavior — component/function with no state, handlers, or side effects
+Type or contract mismatch — values that don't match what the other layer expects
+Uncontrolled inputs — form fields without state binding or validation
+Risky pattern — anything that would silently fail in production
+
+If nothing qualifies, omit the section entirely.
 
 ## Closing
 
