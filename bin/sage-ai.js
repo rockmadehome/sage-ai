@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { createInterface } from "readline";
 import { mkdirSync, writeFileSync } from "fs";
 import { join, dirname } from "path";
 import { homedir } from "os";
@@ -12,11 +11,22 @@ const BRANCH = "main";
 const BASE_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}`;
 
 const FILES = [
-    { src: "sage/sage.md", dest: "agents/sage.md" },
+    { src: "sage/sage.md", dest: "agents/sage.md", inject: true },
     { src: "sage/commands/exp.md", dest: "commands/exp.md" },
     { src: "sage/commands/exp-file.md", dest: "commands/exp-file.md" },
     { src: "sage/commands/flow.md", dest: "commands/flow.md" },
     { src: "sage/commands/why.md", dest: "commands/why.md" },
+];
+
+const LANGUAGES = [
+    { value: "es", label: "Español", flag: "🇪🇸" },
+    { value: "en", label: "English", flag: "🇬🇧" },
+    { value: "pt", label: "Português", flag: "🇧🇷" },
+    { value: "fr", label: "Français", flag: "🇫🇷" },
+    { value: "de", label: "Deutsch", flag: "🇩🇪" },
+    { value: "ja", label: "日本語", flag: "🇯🇵" },
+    { value: "zh", label: "中文", flag: "🇨🇳" },
+    { value: "ko", label: "한국어", flag: "🇰🇷" },
 ];
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -31,6 +41,10 @@ function writeFile(filePath, content) {
     const dir = dirname(filePath);
     mkdirSync(dir, { recursive: true });
     writeFileSync(filePath, content, "utf8");
+}
+
+function injectLanguage(content, langCode) {
+    return content.replace(/^language:\s*.+$/m, `language: ${langCode}`);
 }
 
 function printBanner() {
@@ -80,6 +94,8 @@ process.on("uncaughtException", (err) => {
     throw err;
 });
 
+// ─── step 1: install location ───────────────────────────────────────────────
+
 const choice = await select({
     message: kleur.white("  Where do you want to install Sage?"),
     choices: [
@@ -103,6 +119,40 @@ const choice = await select({
     },
 });
 
+// ─── step 2: language ───────────────────────────────────────────────────────
+
+console.log("");
+
+const langChoice = await select({
+    message: kleur.white("  Default language for Sage reports:"),
+    choices: LANGUAGES.map(l => ({
+        name: kleur.white(`${l.flag}  ${l.label}`),
+        value: l.value,
+        short: l.label,
+    })),
+    theme: {
+        prefix: "",
+        style: {
+            highlight: (text) => kleur.cyan(text),
+            selectedChoice: (text) => kleur.cyan().bold(text),
+        },
+    },
+});
+
+const langLabel = LANGUAGES.find(l => l.value === langChoice).label;
+
+console.log("");
+console.log(
+    kleur.gray("  You can always chat with Sage in any language."),
+);
+console.log(
+    kleur.gray("  Reports will default to ") +
+    kleur.cyan(langLabel) +
+    kleur.gray(".")
+);
+
+// ─── step 3: download & install ─────────────────────────────────────────────
+
 const isGlobal = choice === "global";
 
 const baseDir = isGlobal
@@ -124,7 +174,12 @@ for (const file of FILES) {
     const destPath = join(baseDir, file.dest);
 
     try {
-        const content = await fetchFile(url);
+        let content = await fetchFile(url);
+
+        if (file.inject) {
+            content = injectLanguage(content, langChoice);
+        }
+
         writeFile(destPath, content);
         printFileStatus(file.dest, true);
     } catch (err) {

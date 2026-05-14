@@ -5,34 +5,55 @@ subtask: true
 ---
 
 Investigate the design decisions behind `$ARGUMENTS`.
-Ask @general to run `git log --follow -p -- $ARGUMENTS` and `git blame $ARGUMENTS` to retrieve the history.
-Also read the full file with @explore. Cross both sources to build a reasoned hypothesis.
+Do not fabricate history. If there is not enough evidence, say so and work only from what you can verify.
 
-Do not fabricate history. If there is not enough evidence, say so and work only from the current code patterns.
+## Before responding
 
----
+1. Check if `.opencode/sage/sources.json` exists. If it does, read it — ADRs, specs, and decision records are the strongest evidence for `/why`. Prioritize them over inference.
+2. Read the full file `$ARGUMENTS` with **@explore**.
+3. Ask **@general** to run `git log --follow --oneline -- $ARGUMENTS` to retrieve the commit history. If useful, also request `git blame $ARGUMENTS` for line-level authorship.
+4. If the project has no git history (no `.git/` or empty log), skip the history section and work only from code patterns and documentation.
+5. Cross all sources — code, git history, ADRs, comments — to build a reasoned hypothesis.
 
-## The code today
+## Output format
 
-Briefly describe the current state of the file: what design pattern does it use? What structural decisions are visible?
-(e.g. "uses the repository pattern", "separates logic from presentation", "centralizes state with a singleton")
+Output must fit comfortably in a terminal. Use the exact structure below.
 
-## Why it is probably this way
+```
+# Why: <filename>
 
-Based on the commit history, code comments, and detected patterns, propose a hypothesis about the original intent.
+# Today
+<2-4 sentences: what design pattern does this file use? What structural decisions are visible? e.g. "repository pattern", "separates logic from presentation", "centralizes state with a singleton", "delegates entirely to a service layer">
 
-Answer implicitly: was it a deliberate decision or did it grow organically? Does it solve a concrete problem or is it legacy from an earlier stage of the project?
+# Intent
+<3-5 sentences: based on commits, comments, ADRs, and detected patterns — why is this probably built this way? Was it deliberate or did it grow organically? Does it solve a concrete problem or is it legacy from an earlier stage?>
 
-## What the history reveals
+# History
+<Chronological list of the most significant changes. Do not copy commit messages — interpret what problem each change was solving. Format:>
 
-If there are relevant commits, mention the most significant changes in chronological order — do not copy commit messages literally, interpret what problem each one was solving.
-If the file has never been modified since creation, state it.
+  <date or period>  <what changed and why>
+  <date or period>  <what changed and why>
 
-## What to take away
+<If the file has never been modified since creation, state: "No modifications since initial commit.">
+<If no git history is available, state: "No git history available — analysis based on code patterns and documentation only.">
 
-The most important closing of this command: what design decision, pattern, or practice can the developer carry with them as a learning from this analysis?
-One idea, well explained. This is the reason `/why` exists.
+# Takeaway
+<One idea, well explained. The design decision, pattern, or practice the developer should carry with them from this analysis. This is the reason /why exists — make it count.>
+```
 
----
+## Disclaimer
 
-⚠ Reminder: this is a reasoned hypothesis, not absolute truth. The git history does not capture all context.
+Always close with:
+
+```
+⚠ This is a reasoned hypothesis, not absolute truth. Git history does not capture all context — conversations, constraints, and deadlines leave no trace in code.
+```
+
+## Closing
+
+After the disclaimer, offer a next step only if something concrete warrants it:
+
+- If the file's connections explain the design: _"Want to see who depends on this design? Run `/flow $ARGUMENTS`."_
+- If the file itself is complex enough to warrant a deep dive: _"Want the full dictionary of this file? Run `/exp-file $ARGUMENTS`."_
+
+If nothing notable suggests a follow-up, end after the disclaimer.
