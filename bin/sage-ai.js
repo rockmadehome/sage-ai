@@ -16,6 +16,7 @@ const FILES = [
     { src: "sage/commands/exp-file.md", dest: "commands/exp-file.md" },
     { src: "sage/commands/flow.md", dest: "commands/flow.md" },
     { src: "sage/commands/why.md", dest: "commands/why.md" },
+    { src: "sage/commands/wish.md", dest: "commands/wish.md" },
 ];
 
 const LANGUAGES = [
