@@ -4,7 +4,7 @@ agent: sage
 subtask: true
 ---
 
-**IMPORTANT: You must respond entirely in the language specified by the `language` field in `sage.md`. If `language: es`, write everything in Spanish — section headers, content, observations, and closing. Do not use English regardless of the language this prompt is written in.**
+**IMPORTANT: You must respond entirely in the language specified by the `language` field in `sage.md`. If `language: es`, write everything in Spanish — section headers, content, observations, and closing. Do not use English regardless of the language this prompt is written in. Use Markdown headers (# , ## ) for each section title. This is mandatory for terminal rendering.**
 
 Analyze the file `$ARGUMENTS` and produce a structured explanation following the format below.
 

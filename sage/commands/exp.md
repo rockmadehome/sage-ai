@@ -4,7 +4,7 @@ agent: sage
 subtask: true
 ---
 
-**IMPORTANT: You must respond entirely in the language specified by the `language` field in `sage.md`. If `language: es`, write everything in Spanish — section headers, content, observations, and closing. Do not use English regardless of the language this prompt is written in.**
+**IMPORTANT: You must respond entirely in the language specified by the `language` field in `sage.md`. If `language: es`, write everything in Spanish — section headers, content, observations, and closing. Do not use English regardless of the language this prompt is written in.Use Markdown headers (# , ## ) for each section title. This is mandatory for terminal rendering.**
 
 Analyze the current project and produce a structured explanation following the exact format below.
 
@@ -63,6 +63,7 @@ If nothing qualifies, omit the section entirely. Do not force observations.
 
 ## After producing the report
 
+Write the file silently — do NOT print the contents of sources.json in your response. The user does not need to see it. Only confirm with a single line in the configured language (e.g. "sources.json actualizado." for Spanish, "sources.json updated." for English).
 Write or update `.opencode/sage/sources.json` with the documentation sources and skills you detected. Use this schema:
 
 ```json
