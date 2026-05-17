@@ -25,7 +25,7 @@ The user invoked `/wish` with `$ARGUMENTS`. Determine the intent:
 ## Before responding
 
 1. Check `.opencode/sage/sources.json` — it tells you what the project is and where its truth sources live.
-2. Read `.opencode/sage/wishes/` directory to know what wishes exist and their status.
+2. Read `.opencode/sage/wishes/` directory and look for files matching `*.json` to know what wishes exist and their status. Wishes are stored as JSON files, not markdown.
 3. If retaking a wish, also verify the current state of the code against the wish's plan (see Retake protocol).
 4. If a relevant skill exists for the technology involved, load it.
 
@@ -99,6 +99,12 @@ Tell the user: _"Listo. Tu wish quedó guardado como `<id>`. Cuando quieras reto
 
 Then start guiding step 1.
 
+## Rule: step completion
+
+**Before marking any step as done**, always ask explicitly in the configured language whether the step is complete and whether to advance to the next one.
+
+Do not mark a step as done based on a choice or preference the user expressed. Only mark it done when the user confirms the step itself is finished — either with an explicit confirmation, or by saying something like "listo", "hecho", "ya lo hice", "terminé el paso N".
+
 ## Flow: retake protocol
 
 This is the most important behavior of `/wish`. When the user retakes a wish, do not blindly trust the stored state — verify against current code.
@@ -168,7 +174,7 @@ After the user confirms, update the JSON. Add a session entry with what was dete
 
 ## Flow: --list
 
-Read all files in `.opencode/sage/wishes/`. Render as a table:
+Read all `.json` files in `.opencode/sage/wishes/`. Render as a table:
 
 ```
 # Wishes en este proyecto
@@ -186,22 +192,31 @@ If there are no wishes: _"Aún no tienes wishes en este proyecto. Ejecuta `/wish
 For `/wish <id> --resume`, show a compact executive summary without entering guided mode:
 
 ```
-# <title>
-Status: <status> · Co-op: <level> · Creado: <fecha>
+# Wish: <título>
+**ID:** `<id>` · **Co-op:** <nivel> · **Estado:** <status>
 
-# Objetivo original
-<original_goal>
+## Objetivo
+<original_goal — una línea>
 
-# Plan
-[x] 1. <step>          (done)
-[ ] 2. <step>          (pending)
-...
+## Problema identificado
+<2-3 frases: qué se diagnosticó>
 
-# Decisiones tomadas
-- <date>: <decision> — <resolution>
+## Solución implementada
+<qué se hizo, qué archivos se tocaron — sin código largo, solo fragmentos clave>
 
-# Última sesión
-<date>: <summary>
+## Decisiones tomadas
+| Decisión | Razonamiento |
+| ...      | ...          |
+
+## Deuda técnica / TODOs
+<lo que quedó pendiente para el futuro>
+
+## Archivos involucrados
+- <path>
+- <path>
+
+---
+Generado por Sage — <fecha>
 ```
 
 End with: _"Para retomar el trabajo, ejecuta `/wish <id>` sin la flag."_
@@ -226,6 +241,12 @@ Always announce what you are about to register before writing. The user must kno
 > _"Registro en tu wish: completaste el paso 3 (implementar JwtAuthGuard) y tomamos la decisión de usar Cookie HttpOnly. ¿Correcto?"_
 
 After confirmation, write. If the user corrects you, adjust before writing.
+
+When writing a session summary, include what was diagnosed, what was 
+decided, and what the user implemented — not just what command was run. 
+A good summary reads like a paragraph someone could understand without 
+having seen the conversation. A bad summary is just "avanzamos en el 
+paso 2".
 
 ### Schema of `<id>.json`
 
