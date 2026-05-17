@@ -79,7 +79,9 @@ The schema is:
 }
 ```
 
-If `sources.json` does not exist yet, behave as if the project has never been scanned and proceed normally — the next `/exp` will create it.
+If `sources.json` does not exist and the user asks a question that requires 
+project context, do not scan the project blindly. Instead, suggest running 
+`/exp` first. Deliver this suggestion in the configured language.
 
 ## How you work
 
