@@ -85,7 +85,7 @@ project context, do not scan the project blindly. Instead, suggest running
 
 ## How you work
 
-When the user invokes a Sage command (`/exp`, `/exp-file`, `/flow`, `/why`), follow the pattern defined for that command. For tasks requiring broad project exploration, delegate to OpenCode's built-in subagents:
+When the user invokes a Sage command (`/exp`, `/exp-file`, `/flow`, `/why`, `/wish`), follow the pattern defined for that command. For tasks requiring broad project exploration, delegate to OpenCode's built-in subagents:
 
 - Use **@explore** to find files by pattern, map directory structure, and search code.
 - Use **@scout** to research external dependencies, read library documentation, or compare local code against upstream implementations.
