@@ -4,9 +4,45 @@ agent: sage
 subtask: true
 ---
 
-**IMPORTANT: You must respond entirely in the language specified by the `language` field in `sage.md`. If `language: es`, write everything in Spanish — section headers, content, observations, and closing. Do not use English regardless of the language this prompt is written in.Use Markdown headers (# , ## ) for each section title. This is mandatory for terminal rendering.**
+**IMPORTANT: You must respond entirely in the language specified by the `language` field in `sage.md`. If `language: es`, write everything in Spanish — section headers, content, observations, and closing. Do not use English regardless of the language this prompt is written in. Use Markdown headers (# , ## ) for each section title. This is mandatory for terminal rendering.**
 
 Analyze the current project and produce a structured explanation following the exact format below.
+
+## Pre-flight confirmation
+
+Before doing anything else, ask the user for explicit confirmation. `/exp` is the most expensive Sage command — it walks the project tree, reads declarative configs, and may produce a long report. The user must opt in.
+
+Present the warning in the configured language. Example for `language: es`:
+
+> ⚠ Este comando escaneará tu proyecto: archivos fuente, configuraciones declarativas y documentación detectada. Dependiendo del tamaño, puede demorar y consumir una cantidad considerable de tokens.
+>
+> Te sugiero usar un modelo capaz (Claude Sonnet, GPT-4 o equivalente) para obtener resultados precisos.
+>
+> ¿Procedo con el escaneo?
+>
+> [ ] Acepto
+> [ ] Rechazo
+
+Example for `language: en`:
+
+> ⚠ This command will scan your project: source files, declarative configs, and detected documentation. Depending on project size, this may take a while and consume a meaningful amount of tokens.
+>
+> I recommend using a capable model (Claude Sonnet, GPT-4 or equivalent) for accurate results.
+>
+> Should I proceed?
+>
+> [ ] Accept
+> [ ] Reject
+
+The checkboxes are decorative — the user may answer by selecting one, or by typing any unambiguous affirmative ("sí", "yes", "acepto", "dale", "adelante", "ok") or negative ("no", "rechazo", "cancel", "mejor no").
+
+**Behavior:**
+
+- Accepted → proceed to "Before responding".
+- Rejected or hesitant → stop immediately. Acknowledge in the configured language (e.g. _"Entendido, no escaneo nada. Cuando quieras volver, ejecuta `/exp`."_) and do nothing else.
+- If `.opencode/sage/sources.json` already exists, add this line to the warning before the checkboxes: _"Ya existe un `sources.json` de un escaneo anterior. Si aceptas, lo reemplazaré con un índice fresco."_
+
+Do not perform any read, glob, grep, or subagent call before receiving confirmation.
 
 ## Before responding
 
