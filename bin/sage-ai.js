@@ -1,14 +1,47 @@
 #!/usr/bin/env node
-import { mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, writeFileSync, readFileSync } from "fs";
 import { join, dirname } from "path";
 import { homedir } from "os";
 import kleur from "kleur";
 import figlet from "figlet";
 import { select } from "@inquirer/prompts";
 
+// ─── version (read from package.json, always in sync) ───────────────────────
+
+const { version } = JSON.parse(
+    readFileSync(new URL("../package.json", import.meta.url), "utf8")
+);
+
 const REPO = "m01x/sage-ai";
-const BRANCH = "main";
+const BRANCH = `v${version}`;
 const BASE_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}`;
+
+// ─── --version / --help ──────────────────────────────────────────────────────
+
+const arg = process.argv[2];
+
+if (arg === "--version" || arg === "-v") {
+    console.log(version);
+    process.exit(0);
+}
+
+if (arg === "--help" || arg === "-h") {
+    console.log(`
+  sage-ai v${version}
+
+  Installs Sage — your code comprehension genie for OpenCode.
+
+  Usage:
+    npx sage-ai            Run the installer
+    npx sage-ai --version  Print version
+    npx sage-ai --help     Show this help
+
+  More info: https://github.com/${REPO}
+`);
+    process.exit(0);
+}
+
+// ─── files to install ───────────────────────────────────────────────────────
 
 const FILES = [
     { src: "sage/sage.md", dest: "agents/sage.md", inject: true },
@@ -165,6 +198,9 @@ console.log(
     kleur.gray("  Destination: ") +
     (isGlobal ? kleur.magenta(baseDir) : kleur.cyan(baseDir))
 );
+console.log(
+    kleur.gray("  Version: ") + kleur.cyan(BRANCH)
+);
 
 printStep("Fetching latest version from GitHub...\n");
 
@@ -223,5 +259,5 @@ console.log(kleur.cyan("  /wish      ") + kleur.white("  🧞  your learning com
 console.log(kleur.cyan("  /why       ") + kleur.white("  💭  archaeology of design decisions"));
 console.log("");
 console.log(kleur.gray("  ─────────────────────────────────────────────────"));
-console.log(kleur.magenta("  Your Scholar for OpenCode~"));
+console.log(kleur.magenta("  Your Genie for OpenCode~"));
 console.log("");

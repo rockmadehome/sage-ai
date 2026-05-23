@@ -98,9 +98,14 @@ Include an observation only if it falls into one of these categories:
 If nothing qualifies, omit the section entirely. Do not force observations.
 
 ## After producing the report
+**NEVER print the contents of sources.json.** The user must not see the JSON in their terminal.
+Write or update `.opencode/sage/sources.json` silently. Confirm with a single line only:
+- Spanish: `sources.json actualizado.`
+- English: `sources.json updated.`
 
-Write the file silently — do NOT print the contents of sources.json in your response. The user does not need to see it. Only confirm with a single line in the configured language (e.g. "sources.json actualizado." for Spanish, "sources.json updated." for English).
-Write or update `.opencode/sage/sources.json` with the documentation sources and skills you detected. Use this schema:
+Nothing else. No JSON, no file path, no "# Wrote" annotation.
+
+Use this schema for this file:
 
 ```json
 {

@@ -1,13 +1,14 @@
 {
   "name": "sage-ai",
   "version": "0.1.0",
-  "description": "Install Sage — Your Schoolar for OpenCode",
+  "description": "Install Sage — Your Genie for OpenCode",
   "type": "module",
   "bin": {
     "sage-ai": "./bin/sage-ai.js"
   },
   "files": [
-    "bin/"
+    "bin/",
+    "assets/"
   ],
   "engines": {
     "node": ">=18"
@@ -22,8 +23,20 @@
     "agent",
     "sage",
     "ai",
-    "code-comprehension"
+    "code-comprehension",
+    "developer-tools"
   ],
-  "author": "",
-  "license": "MIT"
+  "author": "m01x",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/m01x/sage-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/m01x/sage-ai/issues"
+  },
+  "homepage": "https://github.com/m01x/sage-ai#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
