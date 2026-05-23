@@ -16,7 +16,7 @@ Present the warning in the configured language. Example for `language: es`:
 
 > ⚠ Este comando escaneará tu proyecto: archivos fuente, configuraciones declarativas y documentación detectada. Dependiendo del tamaño, puede demorar y consumir una cantidad considerable de tokens.
 >
-> Te sugiero usar un modelo capaz (Claude Sonnet, GPT-4 o equivalente) para obtener resultados precisos.
+> Te sugiero usar un modelo capaz (Gemini Pro, DeepSeek, Qwen u Otro) para obtener resultados precisos.
 >
 > ¿Procedo con el escaneo?
 >
@@ -27,7 +27,7 @@ Example for `language: en`:
 
 > ⚠ This command will scan your project: source files, declarative configs, and detected documentation. Depending on project size, this may take a while and consume a meaningful amount of tokens.
 >
-> I recommend using a capable model (Claude Sonnet, GPT-4 or equivalent) for accurate results.
+> I recommend using a capable model (Gemini Pro, DeepSeek, Qwen or equivalent) for accurate results.
 >
 > Should I proceed?
 >
