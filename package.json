@@ -4,7 +4,7 @@
   "description": "Install Sage — Your Genie for OpenCode",
   "type": "module",
   "bin": {
-    "sage-ai": "./bin/sage-ai.js"
+    "sage-ai": "bin/sage-ai.js"
   },
   "files": [
     "bin/",
@@ -30,7 +30,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/m01x/sage-ai.git"
+    "url": "git+https://github.com/m01x/sage-ai.git"
   },
   "bugs": {
     "url": "https://github.com/m01x/sage-ai/issues"
