@@ -12,9 +12,11 @@ Analyze the current project and produce a structured explanation following the e
 
 Before doing anything else, ask the user for explicit confirmation. `/exp` is the most expensive Sage command — it walks the project tree, reads declarative configs, and may produce a long report. The user must opt in.
 
-Use the `question` tool — never a text-based checkbox prompt. Present the warning in the configured language as a short text message in chat, then call the `question` tool with the actual decision.
+**Dual-path:** try the `question` tool first; if unavailable, fall back to text.
 
-Example for `language: es` (the chat text + the question tool call):
+### Step 1 — Warning text in chat
+
+Present the warning in the configured language. Example for `language: es`:
 
 > ⚠ Este comando escaneará tu proyecto: archivos fuente, configuraciones declarativas y documentación detectada. Dependiendo del tamaño, puede demorar y consumir una cantidad considerable de tokens.
 >
@@ -22,19 +24,32 @@ Example for `language: es` (the chat text + the question tool call):
 >
 > <if sources.json exists>Ya existe un `sources.json` de un escaneo anterior. Si aceptas, lo reemplazaré con un índice fresco.</if>
 
-Then call the `question` tool:
+Equivalent for `language: en` — adjust accordingly.
 
+### Step 2 — Ask via dual-path
+
+**Path A (question tool):**
+```json
+{
+  "questions": [{
+    "header": "Confirmar /exp",
+    "question": "¿Procedo con el escaneo?",
+    "options": [
+      {"label": "Acepto", "description": "Iniciar el escaneo del proyecto"},
+      {"label": "Rechazo", "description": "Cancelar y no leer nada"}
+    ]
+  }]
+}
 ```
-question: "¿Procedo con el escaneo?"
-header: "Confirmar /exp"
-options:
-  - "Acepto"      → "Iniciar el escaneo del proyecto"
-  - "Rechazo"     → "Cancelar y no leer nada"
+
+**Path B (fallback en chat):**
+```
+¿Procedo con el escaneo?
+1. Acepto
+2. Rechazo
 ```
 
-Equivalent for `language: en` — adjust the question label, header, and option text accordingly.
-
-**Behavior:**
+### Step 3 — Process answer
 
 - Accepted → proceed to "Before responding".
 - Rejected or hesitant → stop immediately. Acknowledge in the configured language (e.g. _"Entendido, no escaneo nada. Cuando quieras volver, ejecuta `/exp`."_) and do nothing else.

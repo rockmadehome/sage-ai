@@ -103,7 +103,10 @@ Para actuar sobre lo que aprendiste, vuelve al agente Build con `Tab`.
 - Antes de planificar, Sage **lee tu proyecto** (`sources.json` + un escaneo rápido con `@explore` dirigido a la feature) para que el plan esté informado por tu código real, no por suposiciones.
 - El stack se infiere del proyecto. Sage solo pregunta por stack cuando hay una decisión real que tomar (añadir tech nueva, por ejemplo).
 - Los ejercicios siempre ocurren en una **sandbox aislada** (`.sage/sandbox/<id>/`, agregada a `.gitignore` automáticamente) y nunca en tu codebase. Así puedes equivocarte sin romper nada.
-- Todas las decisiones se confirman a través de la **GUI nativa de OpenCode** (la tool `question`), no como texto en el chat.
+- Cada sesión genera **archivos en la sandbox**: un `.md` con el resumen de la teoría, y archivos `.rs`/`.js`/etc. para los ejercicios, con scaffolding que varía según el nivel de co-op (TODO markers en Casual, solo firmas en Formal, solo specs en Senior).
+- Sage **revisa tu código** de ejercicio antes de avanzar. Lee los archivos de la sandbox, da feedback y no pasa a la siguiente sesión hasta que el trabajo esté aprobado.
+- Al final de cada sesión Sage te dice _"listo, hacé el ejercicio y avisame"_. No pregunta inmediatamente si querés seguir — espera a que vuelvas con el trabajo hecho.
+- Todas las decisiones se confirman a través de la **GUI nativa de OpenCode** (la tool `question`) cuando el agente tiene acceso; si no, pregunta en texto numerado.
 
 ### Archivos ignorados
 
